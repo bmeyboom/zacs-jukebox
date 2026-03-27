@@ -45,7 +45,7 @@ def get_spotify_client():
 gc = gspread.service_account(filename=GOOGLE_JSON_FILE)
 sh = gc.open_by_key(os.environ.get('GOOGLE_SHEET_ID')).sheet1
 # We cache the data so we don't hit Google's rate limits every 3 seconds
-cached_sheet_data = sh.get_all_records()
+cached_sheet_data = sh.get_all_records(head=1)
 
 # --- 3. THE LOGIC ---
 
@@ -59,6 +59,7 @@ def find_contributor(song_name, artist_name):
     highest_score = 0
     
     for row in cached_sheet_data:
+        print(row)
         person_name = row.get('Name', 'Unknown')
         # Check Act I, Act II, and Act III columns
         for col in ACT_COL_NAMES:
