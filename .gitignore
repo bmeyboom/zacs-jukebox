@@ -1,1 +1,7 @@
 .env
+zacs-jukebox*.json
+client_secret*
+venv/*
+.cache
+*google_info.json
+*google_service_account.json
