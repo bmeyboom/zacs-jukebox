@@ -1,21 +1,36 @@
-import { getLatestSong } from "./actions";
+import { playPlaylist } from './actions';
+import NowPlayingClient from '../components/NowPlayingClient';
+import PlaylistBrowser from '../components/PlaylistBrowser';
 
-export default async function JukeboxPage() {
-  const latest = await getLatestSong();
-
+export default function JukeboxPage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-zinc-950 text-white p-6">
-      <div className="border border-zinc-800 p-10 rounded-2xl bg-zinc-900 shadow-2xl text-center">
-        <h1 className="text-sm font-bold tracking-widest text-zinc-500 uppercase mb-4">
-          Now Playing (From Spreadsheet)
-        </h1>
-        <p className="text-4xl font-extrabold mb-2 text-blue-400">
-          {latest.song}
-        </p>
-        <p className="text-zinc-400">
-          Added by: <span className="text-zinc-200 font-medium">{latest.user}</span>
-        </p>
+    <main className="flex min-h-screen items-start bg-zinc-950 text-white p-6">
+      <div className="w-full max-w-6xl mx-auto flex gap-8">
+        {/* Left: buttons (stacked) */}
+        <div className="flex flex-col items-start gap-4">
+          <PlaylistBrowser />
+          <h1 className="text-2xl font-bold mb-2">Zac's Jukebox</h1>
+          <form action={playPlaylist} className="inline-block">
+            <input type="hidden" name="playlist" value="act1" />
+            <button type="submit" className="btn">Play Act I</button>
+          </form>
+
+          <form action={playPlaylist} className="inline-block">
+            <input type="hidden" name="playlist" value="act2" />
+            <button type="submit" className="btn">Play Act II</button>
+          </form>
+
+          <form action={playPlaylist} className="inline-block">
+            <input type="hidden" name="playlist" value="act3" />
+            <button type="submit" className="btn">Play Act III</button>
+          </form>
+        </div>
+
+        {/* Right: now playing info (client-side polling) */}
+        <div className="flex-1 flex flex-col items-end">
+          <NowPlayingClient />
+        </div>
       </div>
     </main>
-  ); 
+  );
 }
