@@ -36,4 +36,51 @@
         update();
     </script>
 </body>
+<style>
+    .act-container { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; }
+    
+    .act-card {
+        background: #282828;
+        padding: 20px;
+        border-radius: 8px;
+        width: 150px;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        border: 1px solid transparent;
+    }
+
+    .act-card:hover { background: #3e3e3e; transform: translateY(-5px); border-color: #1DB954; }
+    .act-card h3 { color: #1DB954; margin: 0 0 10px 0; }
+    .act-card p { font-size: 0.8rem; color: #b3b3b3; margin: 0; }
+</style>
+
+<div class="act-container">
+    <div class="act-card" onclick="triggerAct('1')">
+        <h3>Act I</h3>
+        <p>The Beginning</p>
+    </div>
+    <div class="act-card" onclick="triggerAct('2')">
+        <h3>Act II</h3>
+        <p>The Middle</p>
+    </div>
+    <div class="act-card" onclick="triggerAct('3')">
+        <h3>Act III</h3>
+        <p>The Finale</p>
+    </div>
+</div>
+
+<script>
+    // New function to handle the click
+    async function triggerAct(num) {
+        console.log(`Requesting Act ${num}...`);
+        const res = await fetch(`/api/play-act/${num}`);
+        const data = await res.json();
+        
+        if (data.status === "error") {
+            alert("Error: " + data.message + "\n\nTip: Make sure Spotify is open and active!");
+        } else {
+            console.log(`Act ${num} is now playing!`);
+        }
+    }
+</script>
 </html>

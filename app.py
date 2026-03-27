@@ -59,7 +59,6 @@ def find_contributor(song_name, artist_name):
     highest_score = 0
     
     for row in cached_sheet_data:
-        print(row)
         person_name = row.get('Name', 'Unknown')
         # Check Act I, Act II, and Act III columns
         for col in ACT_COL_NAMES:
@@ -112,6 +111,32 @@ def refresh_sheet():
     cached_sheet_data = sh.get_all_records()
     return jsonify({"status": "success", "message": "Sheet data reloaded"})
 
+@app.route('/api/play-act/<act_num>')
+def play_act(act_num):
+    # Mapping the number to the ID in your .env
+    playlist_map = {
+        '1': os.getenv('ACT1_ID'),
+        '2': os.getenv('ACT2_ID'),
+        '3': os.getenv('ACT3_ID')
+    }
+    
+    playlist_id = playlist_map.get(act_num)
+    
+    if not playlist_id:
+        return jsonify({"status": "error", "message": "Invalid Act Number"}), 400
+
+    try:
+        sp = get_spotify_client() # Using your existing refresh token function
+        # Spotify needs the "URI" format: spotify:playlist:ID
+        uri = f"spotify:playlist:{playlist_id}"
+        
+        # This command starts the playlist
+        sp.start_playback(context_uri=uri)
+        return jsonify({"status": "success", "act": act_num})
+    except Exception as e:
+        # Usually happens if no Spotify device is "active"
+        return jsonify({"status": "error", "message": str(e)}), 500
+    
 if __name__ == '__main__':
     # Running on http://127.0.0.1:5000
     app.run(debug=True, port=5000)
