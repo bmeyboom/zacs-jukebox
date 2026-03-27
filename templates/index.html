@@ -9,8 +9,8 @@
     
     <div style="border: 1px solid #444; padding: 20px; margin: 20px auto; max-width: 400px;">
         <p>Current Status: <span id="status">Checking Spotify...</span></p>
-        <h2 id="track">--</h2>
-        <p>Added by: <strong id="contributor" style="color: #1DB954;">--</strong></p>
+        <h2 id="track" style="color: #b97d1d;">--</h2>
+        <p>Added by: <strong id="contributor">--</strong></p>
     </div>
 
     <script>
@@ -49,23 +49,23 @@
         border: 1px solid transparent;
     }
 
-    .act-card:hover { background: #3e3e3e; transform: translateY(-5px); border-color: #1DB954; }
-    .act-card h3 { color: #1DB954; margin: 0 0 10px 0; }
+    .act-card:hover { background: #3e3e3e; transform: translateY(-5px); border-color: #b97d1d; }
+    .act-card h3 { color: #b97d1d; margin: 0 0 10px 0; }
     .act-card p { font-size: 0.8rem; color: #b3b3b3; margin: 0; }
 </style>
 
 <div class="act-container">
     <div class="act-card" onclick="triggerAct('1')">
         <h3>Act I</h3>
-        <p>The Beginning</p>
+        <p><i>The Lounge</i></p>
     </div>
     <div class="act-card" onclick="triggerAct('2')">
         <h3>Act II</h3>
-        <p>The Middle</p>
+        <p><i>The Long Table</i></p>
     </div>
     <div class="act-card" onclick="triggerAct('3')">
         <h3>Act III</h3>
-        <p>The Finale</p>
+        <p><i>All Time Best</i></p>
     </div>
 </div>
 

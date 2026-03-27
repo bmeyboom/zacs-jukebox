@@ -22,9 +22,9 @@ SPOTIFY_REFRESH_TOKEN = os.getenv('SPOTIFY_REFRESH_TOKEN', '')
 REDIRECT_URI = os.getenv('SPOTIFY_REDIRECT_URI', '')
 
 ACT_COL_NAMES = [
-    'Act 1 Song submission (Song title - Artist)',
-    'Act 2 Song submission (Song title - Artist)',
-    'Act 3 Song submission (Song title - Artist)'
+    "Act 1 Song submission (Song title - Artist)",
+    "Act 2 Song submission (Song title - Artist)",
+    "Act 3 Song submission (Song title - Artist)"
 ]
 
 # --- 2. AUTHENTICATION SETUP ---
@@ -68,7 +68,7 @@ def find_contributor(song_name, artist_name):
             # token_set_ratio is great for "Song - Artist" vs "Song (feat. X) - Artist"
             score = fuzz.token_set_ratio(current_playing_str, sheet_song)
             
-            if score > 80 and score > highest_score:
+            if score > 50 and score > highest_score:
                 highest_score = score
                 best_match_name = person_name
                 
