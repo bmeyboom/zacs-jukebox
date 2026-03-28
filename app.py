@@ -91,14 +91,27 @@ def now_playing():
 
         track = current['item']['name']
         artist = current['item']['artists'][0]['name']
-        
+
+        # album art: Spotify returns a list of images for the album (different sizes).
+        # Choose the first image if available (usually the largest).
+        album = current['item'].get('album', {}) if isinstance(current['item'], dict) else {}
+        images = album.get('images', []) if isinstance(album, dict) else []
+        album_art = None
+        if images and isinstance(images, list):
+            # images are usually ordered from largest -> smallest
+            try:
+                album_art = images[0].get('url') if isinstance(images[0], dict) else None
+            except Exception:
+                album_art = None
+
         contributor = find_contributor(track, artist)
-        
+
         return jsonify({
             "status": "playing",
             "track": track,
             "artist": artist,
-            "contributor": contributor
+            "contributor": contributor,
+            "album_art": album_art
         })
     except Exception as e:
         print(f"Error: {e}")

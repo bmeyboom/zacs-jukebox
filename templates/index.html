@@ -1,16 +1,14 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Test Page</title>
+    <title>Sonic Potluck Dance</title>
 </head>
-<body style="background: #222; color: white; font-family: sans-serif; padding: 50px; text-align: center;">
+<body style="background-image: linear-gradient(to bottom right, #720202, #520101); color: rgb(236, 201, 155); font-family: sans-serif; text-align: center; margin: 0; padding: 0; width: 100vw; height: 100vh; align-content: center;">
     
-    <h1>Zac's Jukebox</h1>
-    
-    <div style="border: 1px solid #444; padding: 20px; margin: 20px auto; max-width: 400px;">
-        <p>Current Status: <span id="status">Checking Spotify...</span></p>
-        <h2 id="track" style="color: #b97d1d;">--</h2>
-        <p>Added by: <strong id="contributor">--</strong></p>
+    <div style="padding: 20px; margin: 20px auto; width: 50vw; height: fit-content;">
+        <img id="cover" src="" alt="Album cover" style="width:40vh;height:40vh;object-fit:cover;border-radius:8px;display:none;margin:0 auto;border:1px solid rgba(255,255,255,0.08);" />
+        <h2 id="track" style="color: rgb(204, 153, 87); font-family:'Segoe UI'; font-size: 30px;">--</h2>
+        <h3 style="font-family:sans-serif;">Added by: <strong id="contributor">--</strong></h3>
     </div>
 
     <script>
@@ -24,8 +22,19 @@
                     document.getElementById('status').innerText = "Playing";
                     document.getElementById('track').innerText = `${data.track} - ${data.artist}`;
                     document.getElementById('contributor').innerText = data.contributor;
+
+                    // show album art if available
+                    const cover = document.getElementById('cover');
+                    if (data.album_art) {
+                        cover.src = data.album_art;
+                        cover.style.display = 'block';
+                    } else {
+                        cover.style.display = 'none';
+                    }
                 } else {
                     document.getElementById('status').innerText = "Spotify is Idle";
+                    const cover = document.getElementById('cover');
+                    cover.style.display = 'none';
                 }
             } catch (err) {
                 document.getElementById('status').innerText = "Error connecting to Server";
@@ -40,7 +49,7 @@
     .act-container { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; }
     
     .act-card {
-        background: #282828;
+        background: #530101;
         padding: 20px;
         border-radius: 8px;
         width: 150px;
@@ -49,12 +58,12 @@
         border: 1px solid transparent;
     }
 
-    .act-card:hover { background: #3e3e3e; transform: translateY(-5px); border-color: #b97d1d; }
-    .act-card h3 { color: #b97d1d; margin: 0 0 10px 0; }
-    .act-card p { font-size: 0.8rem; color: #b3b3b3; margin: 0; }
+    .act-card:hover { background: #310000; transform: translateY(-5px); border-color: #a77627; }
+    .act-card h3 { color: rgb(204, 153, 87); margin: 0 0 10px 0; }
+    .act-card p { font-size: 0.8rem; color: rgb(236, 201, 155); margin: 0; }
 </style>
 
-<div class="act-container">
+<div class="act-container" style="font-family: 'Segoe UI';">
     <div class="act-card" onclick="triggerAct('1')">
         <h3>Act I</h3>
         <p><i>The Lounge</i></p>
@@ -68,6 +77,7 @@
         <p><i>All Time Best</i></p>
     </div>
 </div>
+<p style="font-size:small; font-style: italic;">Current Status: <span id="status">Checking Spotify...</span></p>
 
 <script>
     // New function to handle the click
