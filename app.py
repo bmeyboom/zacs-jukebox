@@ -55,7 +55,7 @@ def find_contributor(song_name, artist_name):
     """
     current_playing_str = f"{song_name} - {artist_name}".lower()
     
-    best_match_name = "Guest Choice"
+    best_match_name = "Spotify"
     highest_score = 0
     
     for row in cached_sheet_data:
@@ -68,7 +68,7 @@ def find_contributor(song_name, artist_name):
             # token_set_ratio is great for "Song - Artist" vs "Song (feat. X) - Artist"
             score = fuzz.token_set_ratio(current_playing_str, sheet_song)
             
-            if score > 50 and score > highest_score:
+            if score > 60 and score > highest_score:
                 highest_score = score
                 best_match_name = person_name
                 
