@@ -1,4 +1,5 @@
-# Zac's Jukebox
+# Jukebox
+Link a Google Sheet with songs submitted by your friends, to Spotify playlists and have a real-time visual of the songs along with the person who chose it. 
 
-Think a joint Spotify playlist, except not everyone needs Spotify. This will let you and your friends submit songs via Google Sheets, and then you can see both the song, and the person who submitted it in a fun display while it plays on your Spotify account! 
-
+!["UI demo"](images/ui_demo.png)
+!["UI demo with button press"](images/ui_demo_button_press.png)

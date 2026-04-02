@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sonic Potluck Dance</title>
+</head>
+<body style="background-image: linear-gradient(to bottom right, #720202, #520101); color: rgb(236, 201, 155); font-family: sans-serif; text-align: center; margin: 0; padding: 0; width: 100vw; height: 100vh; align-content: center;">
+    
+    <div style="padding: 20px; margin: 20px auto; width: 50vw; height: fit-content;">
+        <img id="cover" src="" alt="Album cover" style="width:40vh;height:40vh;object-fit:cover;border-radius:8px;display:none;margin:0 auto;border:1px solid rgba(255,255,255,0.08);" />
+        <h2 id="track" style="color: rgb(204, 153, 87); font-family:'Segoe UI'; font-size: 30px;">--</h2>
+        <h3 style="font-family:sans-serif;">Added by: <strong id="contributor">--</strong></h3>
+    </div>
+
+    <script>
+        async function update() {
+            try {
+                const res = await fetch('/api/now-playing');
+                const data = await res.json();
+                console.log("Data received:", data); // Check your console!
+
+                if (data.status === "playing") {
+                    document.getElementById('status').innerText = "Playing";
+                    document.getElementById('track').innerText = `${data.track} - ${data.artist}`;
+                    document.getElementById('contributor').innerText = data.contributor;
+
+                    // show album art if available
+                    const cover = document.getElementById('cover');
+                    if (data.album_art) {
+                        cover.src = data.album_art;
+                        cover.style.display = 'block';
+                    } else {
+                        cover.style.display = 'none';
+                    }
+                } else {
+                    document.getElementById('status').innerText = "Spotify is Idle";
+                    const cover = document.getElementById('cover');
+                    cover.style.display = 'none';
+                }
+            } catch (err) {
+                document.getElementById('status').innerText = "Error connecting to Server";
+                console.error(err);
+            }
+        }
+        setInterval(update, 3000);
+        update();
+    </script>
+</body>
+<style>
+    .act-container { display: flex; gap: 20px; justify-content: center; margin-bottom: 40px; }
+    
+    .act-card {
+        background: #530101;
+        padding: 20px;
+        border-radius: 8px;
+        width: 150px;
+        cursor: pointer;
+        transition: background 0.3s, transform 0.2s;
+        border: 1px solid transparent;
+    }
+
+    .act-card:hover { background: #310000; transform: translateY(-5px); border-color: #a77627; }
+    .act-card h3 { color: rgb(204, 153, 87); margin: 0 0 10px 0; }
+    .act-card p { font-size: 0.8rem; color: rgb(236, 201, 155); margin: 0; }
+</style>
+
+<div class="act-container" style="font-family: 'Segoe UI';">
+    <div class="act-card" onclick="triggerAct('1')">
+        <h3>Act I</h3>
+        <p><i>The Lounge</i></p>
+    </div>
+    <div class="act-card" onclick="triggerAct('2')">
+        <h3>Act II</h3>
+        <p><i>The Long Table</i></p>
+    </div>
+    <div class="act-card" onclick="triggerAct('3')">
+        <h3>Act III</h3>
+        <p><i>All Time Best</i></p>
+    </div>
+</div>
+<p style="font-size:small; font-style: italic;">Current Status: <span id="status">Checking Spotify...</span></p>
+
+<script>
+    // New function to handle the click
+    async function triggerAct(num) {
+        console.log(`Requesting Act ${num}...`);
+        const res = await fetch(`/api/play-act/${num}`);
+        const data = await res.json();
+        
+        if (data.status === "error") {
+            alert("Error: " + data.message + "\n\nTip: Make sure Spotify is open and active!");
+        } else {
+            console.log(`Act ${num} is now playing!`);
+        }
+    }
+</script>
+</html>
